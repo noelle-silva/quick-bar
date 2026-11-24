@@ -5,6 +5,9 @@ import { fileURLToPath } from 'node:url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const appDir = path.resolve(__dirname, '..')
+const targetDir = process.env.CARGO_TARGET_DIR
+  ? path.resolve(process.env.CARGO_TARGET_DIR)
+  : path.join(appDir, 'src-tauri', 'target')
 const require = createRequire(import.meta.url)
 
 const runtimeDirName = 'selection-runtime'
@@ -44,8 +47,8 @@ async function copyAssets(target) {
 }
 
 for (const target of [
-  path.join(appDir, 'src-tauri', 'target', 'debug'),
-  path.join(appDir, 'src-tauri', 'target', 'resources'),
+  path.join(targetDir, 'debug'),
+  path.join(targetDir, 'resources'),
 ]) {
   await copyAssets(target)
   await copySelectionRuntime(target)
