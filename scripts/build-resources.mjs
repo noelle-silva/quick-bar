@@ -46,10 +46,11 @@ async function copyAssets(target) {
   await fs.cp(path.join(appDir, 'assets'), path.join(target, 'assets'), { recursive: true })
 }
 
-for (const target of [
+for (const target of [...new Set([
   path.join(targetDir, 'debug'),
   path.join(targetDir, 'resources'),
-]) {
+  path.join(appDir, 'src-tauri', 'target', 'resources'),
+])]) {
   await copyAssets(target)
   await copySelectionRuntime(target)
 }

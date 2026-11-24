@@ -542,6 +542,7 @@ async function cmdTest() {
 
   try {
     await fsp.mkdir(path.join(worktree, 'dist'), { recursive: true })
+    await fsp.mkdir(path.join(worktree, 'src-tauri', 'target', 'resources', 'selection-runtime'), { recursive: true })
     for (const binRel of externalBins) {
       const baseName = path.basename(binRel)
       const ext = process.platform === 'win32' ? '.exe' : ''
