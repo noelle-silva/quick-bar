@@ -4,6 +4,7 @@ mod app_layout;
 mod control_server;
 mod data_dir;
 mod fw_window;
+mod instance_identity;
 mod native_dialog;
 mod quick_bar_backend;
 mod result_window_preferences;
@@ -95,7 +96,21 @@ fn desktop_identifier() -> &'static str {
 
 fn main() {
     let fw_args = parse_fw_args();
-    let desktop_identifier = desktop_identifier().to_string();
+    let desktop_identifier = match instance_identity::resolve_desktop_identifier(desktop_identifier()) {
+        Ok(id) => id,
+        Err(error) => {
+            eprintln!("[quick-bar] {error}");
+            std::process::exit(1);
+        }
+    };
+    let data_dir_override = match instance_identity::resolve_data_dir_override() {
+        Ok(dir) => dir,
+        Err(error) => {
+            eprintln!("[quick-bar] {error}");
+            std::process::exit(1);
+        }
+    };
+    instance_identity::configure_isolated_webview_dir(data_dir_override.as_deref());
     if single_instance::forward_to_existing_instance(&fw_args, &desktop_identifier) {
         return;
     }
