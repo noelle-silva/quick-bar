@@ -155,16 +155,16 @@ Quick Bar 保持三个窗口职责分离：
 在仓库根目录可执行：
 
 ```powershell
-npm --prefix apps/quick-bar run build:ui
-npm --prefix apps/quick-bar exec -- tsc --noEmit
-cargo check --manifest-path apps/quick-bar/src-tauri/Cargo.toml
+npm run build:ui
+npm exec -- tsc --noEmit
+cargo check --manifest-path src-tauri/Cargo.toml
 ```
 
 ## 构建命令
 
 ```powershell
-npm --prefix apps/quick-bar run build:app:dev
-npm --prefix apps/quick-bar run build:app
+npm run build:app:dev
+npm run build:app
 ```
 
 `build:app:dev` 用于生成本地开发版应用容器，`build:app` 用于生成本地正式版应用容器。
